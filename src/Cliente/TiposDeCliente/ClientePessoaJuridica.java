@@ -1,0 +1,23 @@
+package Cliente.TiposDeCliente;
+
+import Cliente.Cliente;
+
+public class ClientePessoaJuridica extends Cliente {
+
+    private String cnpj;
+    private String razaoSocial;
+
+    public ClientePessoaJuridica(String nome, long cpf, String endereco, String cnpj, String razaoSocial) {
+        super(nome, cpf, endereco);
+        this.cnpj = cnpj;
+        this.razaoSocial = razaoSocial;
+    }
+
+    public String getCnpj() {return cnpj;}
+    public String getRazaoSocial() {return razaoSocial;}
+
+    @Override
+    public String toString() {
+        return "ClientePessoaJuridica - "+super.toString() +", cnpj =" + cnpj + ", razaoSocial =" + razaoSocial;
+    }
+}
