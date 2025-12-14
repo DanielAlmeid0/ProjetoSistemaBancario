@@ -1,6 +1,7 @@
 package Entitite.Conta;
 
 import Entitite.Cliente.Cliente;
+import Entitite.ValueInvalidException;
 
 public abstract class Conta{
 
@@ -17,8 +18,8 @@ public abstract class Conta{
         this.titular.vincularConta(this);
     }
 
-    public abstract void depositar(double val_deposito);
-    public abstract void sacar(double val_saque);
+    public abstract void depositar(double val_deposito) throws ValueInvalidException;
+    public abstract void sacar(double val_saque) throws ValueInvalidException;
     public abstract void transferir(Conta conta, double valor_transferencia);
     public abstract double verSaldo();
 

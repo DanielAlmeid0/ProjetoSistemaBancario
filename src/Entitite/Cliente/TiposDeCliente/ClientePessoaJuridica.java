@@ -5,19 +5,19 @@ import Entitite.Cliente.Cliente;
 public class ClientePessoaJuridica extends Cliente {
 
     private String cnpj;
-    private String razaoSocial;
+    private String nome_Empresa;
 
-    public ClientePessoaJuridica(String nome, String endereco, String cnpj, String razaoSocial) {
+    public ClientePessoaJuridica(String nome, String endereco, String cnpj, String nome_Empresa) {
         super(nome, endereco);
         this.cnpj = cnpj;
-        this.razaoSocial = razaoSocial;
+        this.nome_Empresa = nome_Empresa;
     }
 
     public String getCnpj() {return cnpj;}
-    public String getRazaoSocial() {return razaoSocial;}
+    public String getRazaoSocial() {return nome_Empresa;}
 
     @Override
     public String toString() {
-        return "ClientePessoaJuridica - "+super.toString() +", cnpj =" + cnpj + ", razaoSocial =" + razaoSocial;
+        return "ClientePessoaJuridica - "+super.toString() +", cnpj =" + cnpj + ", Nome da Empresa atrelada ao CNPJ =" + nome_Empresa;
     }
 }

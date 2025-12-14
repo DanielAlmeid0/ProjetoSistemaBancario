@@ -2,6 +2,7 @@ package Entitite.Conta.Personas_Da_Conta;
 
 import Entitite.Cliente.Cliente;
 import Entitite.Conta.Conta;
+import Entitite.ValueInvalidException;
 
 public class ContaPoupanca extends Conta implements Tributavel {
 
@@ -13,7 +14,10 @@ public class ContaPoupanca extends Conta implements Tributavel {
     }
 
     public void aplicarRendimento(){
-
+        if (this.taxaRendimento != null && this.saldo > 0) {
+            double valorDoRendimento = this.saldo * this.taxaRendimento;
+            this.saldo += valorDoRendimento;
+        }
     }
 
     @Override
@@ -22,13 +26,21 @@ public class ContaPoupanca extends Conta implements Tributavel {
     }
 
     @Override
-    public void depositar(double val_deposito) {
-
+    public void depositar(double val_deposito) throws ValueInvalidException {
+        if (val_deposito > 0) {
+            saldo += val_deposito;
+        } else {
+            throw new ValueInvalidException("Valor de depósito inválido!");//revisar
+        }
     }
 
     @Override
-    public void sacar(double val_saque) {
-
+    public void sacar(double val_saque) throws ValueInvalidException  {
+        if (val_saque > 0 && val_saque <= saldo) {
+            saldo -= val_saque;
+        }else {
+            throw new ValueInvalidException("Saldo insuficiente para saque!");//revisar
+        }
     }
 
     @Override
