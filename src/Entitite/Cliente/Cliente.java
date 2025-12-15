@@ -40,6 +40,9 @@ public abstract class Cliente {
 
     @Override
     public String toString() {
-        return "Nome do cliente =" + nome + ", endereco =" + endereco;
+        return "Nome do cliente -" + nome +
+                ", endereco -" + endereco +
+                ", dataDeNascimento -" + dataDeNascimento +
+                ", contas -" + contas;
     }
 }

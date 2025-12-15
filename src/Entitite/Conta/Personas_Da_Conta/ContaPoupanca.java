@@ -13,7 +13,7 @@ public class ContaPoupanca extends Conta implements Tributavel {
         this.taxaRendimento = taxa;
     }
 
-    public void aplicarRendimento(){
+    public void calcularRendimento(){
         if (this.taxaRendimento != null && this.saldo > 0) {
             double valorDoRendimento = this.saldo * this.taxaRendimento;
             this.saldo += valorDoRendimento;
@@ -22,6 +22,7 @@ public class ContaPoupanca extends Conta implements Tributavel {
 
     @Override
     public double calcularImposto() { // DA INTERFACE
+
         return 0;
     }
 
