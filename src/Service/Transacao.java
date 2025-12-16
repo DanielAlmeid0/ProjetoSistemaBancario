@@ -10,15 +10,14 @@ import java.time.format.DateTimeFormatter;
 public class Transacao {
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final String caminhoDoRegistro = "ResgistroDeTransacoes.txt";
     private LocalDate dataTransacao;
     private String tipo_de_transacao;
     private Double valTransacao;
-    private final String caminhoDoRegistro;
     private final File arquivoRegistrador;
 
 
-    public Transacao(String caminhoDoRegistro , String tipoTransacao, double val){
-        this.caminhoDoRegistro = caminhoDoRegistro;
+    public Transacao(String tipoTransacao, double val){
         this.tipo_de_transacao = tipoTransacao;
         this.valTransacao = val;
         this.arquivoRegistrador = new File(caminhoDoRegistro);
@@ -27,8 +26,8 @@ public class Transacao {
         dataTransacao.format(formatter);
     }
 
-    public Transacao(String caminhoDoRegistro, String tipoTransacao, double val, LocalDate dataEspecifica){
-        this(caminhoDoRegistro, tipoTransacao, val); // Chama o construtor de cima
+    public Transacao(String tipoTransacao, double val, LocalDate dataEspecifica){
+        this(tipoTransacao, val); // Chama o construtor de cima
 
         this.dataTransacao = dataEspecifica;
         dataTransacao.format(formatter);
@@ -46,7 +45,7 @@ public class Transacao {
                         "| Tipo de transacao: "+ tipo_de_transacao +
                         "| Valor da transacao: "+ valTransacao);
             writer.newLine();
-            
+
             writer.flush();
         }catch (IOException e) {
             throw new IOException("FALHA AO REGISTRAR AS TRANSAÇÕES NO BANCO!");
