@@ -2,20 +2,23 @@ package Entitite.Cliente;
 
 import Entitite.Conta.Conta;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 
 public abstract class Cliente {
 
     private String nome;
-    private long cpf;
     private String endereco;
+    private LocalDate dataDeNascimento;
     private Set<Conta> contas = new HashSet<>();
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    public Cliente(String nome, long cpf, String endereco) {
+    public Cliente(String nome, String endereco, String dataNascimento) {
         this.nome = nome;
-        this.cpf = cpf;
         this.endereco = endereco;
+        this.dataDeNascimento = LocalDate.parse(dataNascimento, formatter);
     }
 
     public void vincularConta(Conta conta) {
@@ -33,11 +36,13 @@ public abstract class Cliente {
     }
 
     public String getNome() {return nome;}
-    public long getCpf() {return cpf;}
     public String getEndereco() {return endereco;}
 
     @Override
     public String toString() {
-        return "Nome do cliente =" + nome + ", cpf =" + cpf + ", endereco =" + endereco;
+        return "Nome do cliente -" + nome +
+                ", endereco -" + endereco +
+                ", dataDeNascimento -" + dataDeNascimento +
+                ", contas -" + contas;
     }
 }
