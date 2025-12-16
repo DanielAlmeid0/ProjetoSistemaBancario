@@ -15,6 +15,7 @@ public class Transacao {
     }
 
     public void registrar(){
+        data = LocalDate.now();
 
     }
 
