@@ -2,7 +2,7 @@ package Entitite.Conta.Personas_Da_Conta;
 
 import Entitite.Cliente.Cliente;
 import Entitite.Conta.Conta;
-import Entitite.ValueInvalidException;
+import Entitite.InvalidValueException;
 
 public class ContaCorrente extends Conta {
 
@@ -18,20 +18,20 @@ public class ContaCorrente extends Conta {
     }
 
     @Override
-    public void depositar(double val_deposito) throws ValueInvalidException{
+    public void depositar(double val_deposito) throws InvalidValueException{
         if (val_deposito > 0) {
             saldo += val_deposito;
         } else {
-            throw new ValueInvalidException("Valor de depósito inválido!");//revisar
+            throw new InvalidValueException("Valor de depósito inválido!");//revisar
         }
     }
 
     @Override
-    public void sacar(double val_saque) throws ValueInvalidException{
+    public void sacar(double val_saque) throws InvalidValueException{
         if (val_saque > 0 && val_saque <= (saldo + limiteChequeEspecial)) { //Daniel
             saldo -= val_saque;
         } else {
-            throw new ValueInvalidException("Saldo insuficiente para saque!");//Revisar
+            throw new InvalidValueException("Saldo insuficiente para saque!");//revisar
         }
     }
 
