@@ -22,7 +22,7 @@ public abstract class Conta{
     public abstract void depositar(double val_deposito) throws InvalidValueException;
     public abstract void sacar(double val_saque) throws InvalidValueException;
     public abstract void transferir(Conta conta, double valor_transferencia) throws InsufficientFundsException;
-    public double verSaldo(){return saldo;};
+    public double verSaldo(){return saldo;}
 
     public Integer getNumero() {return numero;}
     public Integer getAgencia() {return agencia;}
