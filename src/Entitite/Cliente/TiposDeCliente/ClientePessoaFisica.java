@@ -15,6 +15,6 @@ public class ClientePessoaFisica extends Cliente {
 
     @Override
     public String toString() {
-        return "ClientePessoaFisica - " + super.toString();
+        return "ClientePessoaFisica - " + super.toString() + ", cpf - " + cpf;
     }
 }

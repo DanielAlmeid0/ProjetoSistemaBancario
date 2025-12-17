@@ -46,4 +46,12 @@ public class ContaCorrente extends Conta {
         }
     }
 
+    @Override
+    public String toString() {
+        return "Conta Corrente: " +
+                "Titular = " + titular.getNome() +
+                " | Saldo = " + saldo +
+                " | Agência = " + agencia +
+                " | Número da conta = " + numero;
+    }
 }
