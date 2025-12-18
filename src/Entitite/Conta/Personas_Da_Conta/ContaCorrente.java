@@ -14,6 +14,11 @@ public class ContaCorrente extends Conta {
         this.limiteChequeEspecial = limite;
     }
 
+    public ContaCorrente(Integer numero, Integer agencia, Cliente titular) {
+        super(numero, agencia, titular);
+        this.limiteChequeEspecial = 0.0;
+    }
+
     public Double getLimiteChequeEspecial() {
         return limiteChequeEspecial;
     }
