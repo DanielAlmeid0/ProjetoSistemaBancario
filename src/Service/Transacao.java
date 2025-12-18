@@ -8,10 +8,10 @@ public class Transacao {
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static final String caminhoDoRegistro = "dados/RegistroDeTransacoes.txt";
+    private final File arquivoRegistrador;
     private LocalDate dataTransacao;
     private String tipoDeTransacao;
     private Double valTransacao;
-    private final File arquivoRegistrador;
 
 
     public Transacao(String tipoTransacao, double val){
@@ -31,7 +31,6 @@ public class Transacao {
     }
 
     public void registrar() throws IOException {//falta a implementação das interfaces
-
         registrarNoArquivo();
         saidaDoRegistro();
 
