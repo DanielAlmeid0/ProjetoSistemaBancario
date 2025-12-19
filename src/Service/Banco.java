@@ -17,91 +17,46 @@ public class Banco {
     public Banco(String nomeBanco, String codigo){
         this.nome_do_Banco = nomeBanco;
         this.codigo = codigo;
-        this.clientesDoBanco = new ArrayList<Cliente>();
+        this.clientesDoBanco = new ArrayList<>();
     }
 
     public boolean adicionarCliente(Scanner sc) throws InputMismatchException{
-        String cpf;
-        String cnpj;
-        String dataNascimento;
-        String nome;
-        String nomeEmpresa;
-        int cep = 0;
-        String cidade;
-        String rua;
-        String bairro;
-        String numeroDaCasa;
-        String complemento;
-        String dataDeNascimento;
+        String cpf, cnpj, dataDeNascimento, nome, nomeEmpresa, cidade, bairro, rua, complemento;
         Endereco enderecoDeCriacao;
-        boolean verificacao = false;
 
         try {
             System.out.println("O cliente é Pessoa Física(PF) ou Pessoa Jurídica(PJ)?");
             String tipoCliente = sc.next();
+            sc.nextLine();
+
+            System.out.println("Nome do cliente: ");
+            nome = sc.nextLine();
+            System.out.println("Digite a data de nascimento do cliente: ");
+            dataDeNascimento = sc.nextLine();
+
             if (tipoCliente.equalsIgnoreCase("PF")){
-                System.out.println("Nome do cliente: ");
-                nome = sc.next();
                 System.out.println("CPF do cliente: ");
                 cpf = sc.next();
-                System.out.println("Digite a data de nascimento do cliente: ");
-                dataDeNascimento = sc.next();
-                System.out.println("Endereço ");
-                System.out.println("Digite o CEP da cidade do cliente: ");
-                cep = sc.nextInt();
-                System.out.println("Digite o nome da cidade do cliente: ");
-                cidade = sc.next();
-                System.out.println("Digite a rua do cliente: ");
-                rua = sc.next();
-                System.out.println("Digite o bairro do cliente: ");
-                bairro = sc.next();
-                System.out.println("Digite o número da casa do cliente: ");
-                numeroDaCasa = sc.next();
-                System.out.println("Complemento: ");
-                complemento = sc.next();
 
-                enderecoDeCriacao = new Endereco(rua, cep,numeroDaCasa,complemento,bairro,cidade);
-                verificacao = this.clientesDoBanco.add(new ClientePessoaFisica(nome, cpf, enderecoDeCriacao, dataDeNascimento));
-
+                enderecoDeCriacao = leitorDeEndereco(sc);
+                return this.clientesDoBanco.add(new ClientePessoaFisica(nome, cpf, enderecoDeCriacao, dataDeNascimento));
             }else if (tipoCliente.equalsIgnoreCase("PJ")){
                 System.out.println("Digite o nome do cliente: ");
-                nome = sc.next();
+                nome = sc.nextLine();
                 System.out.println("Digite o CNPJ do cliente: ");
                 cnpj = sc.next();
                 System.out.println("Digite o nome da empresa do cliente: ");
-                nomeEmpresa = sc.next();
-                System.out.println("Digite a data de nascimento do cliente: ");
-                dataDeNascimento = sc.next();
-                System.out.println("Endereço ");
-                System.out.println("Digite o CEP da cidade do cliente: ");
-                 cep = sc.nextInt();
-                System.out.println("Digite o nome da cidade do cliente: ");
-                cidade = sc.next();
-                System.out.println("Digite a rua do cliente: ");
-                 rua = sc.next();
-                System.out.println("Digite o bairro do cliente: ");
-                bairro = sc.next();
-                System.out.println("Digite o número da casa do cliente: ");
-                numeroDaCasa = sc.next();
-                System.out.println("Complemento: ");
-                complemento = sc.next();
+                nomeEmpresa = sc.nextLine();
 
-                enderecoDeCriacao = new Endereco(rua, cep,numeroDaCasa,complemento,bairro,cidade);
-                verificacao = this.clientesDoBanco.add(new ClientePessoaJuridica(nome, enderecoDeCriacao,cnpj,nomeEmpresa, dataDeNascimento));
-            }
-
-            if (verificacao) {
-                System.out.println("Cliente adicionado com sucesso!");
-                return true;
+                enderecoDeCriacao = leitorDeEndereco(sc);
+                return this.clientesDoBanco.add(new ClientePessoaJuridica(nome, enderecoDeCriacao,cnpj,nomeEmpresa, dataDeNascimento));
             }else {
-                System.out.println("Cliente não foi adicionado!");
+                System.out.println("Tipo de cliente inválido!");
                 return false;
             }
 
         }catch (InputMismatchException e){
-            throw new InputMismatchException(e.getMessage());
-        }catch (Exception e){
-            throw new RuntimeException(e.getMessage());
+            throw new InputMismatchException("ERRO, DIGITOU CARACTERES AO INVÉS DE NÚMEROS! "+ e.getMessage());
         }
     }
 
@@ -109,6 +64,30 @@ public class Banco {
 
     }
 
+    private Endereco leitorDeEndereco(Scanner sc){
+        System.out.println("--- Endereço ---");
+        System.out.println("Digite o CEP da cidade do cliente: ");
+        int cep = sc.nextInt();
+        sc.nextLine();
+
+        System.out.println("Digite o nome da cidade do cliente: ");
+        String cidade = sc.nextLine();
+
+        System.out.println("Digite a rua do cliente: ");
+        String rua = sc.nextLine();
+
+        System.out.println("Digite o bairro do cliente: ");
+        String bairro = sc.nextLine();
+
+        System.out.println("Digite o número da casa do cliente: ");
+        int numeroDaCasa = sc.nextInt();
+        sc.nextLine();
+
+        System.out.println("Complemento: ");
+        String complemento = sc.nextLine();
+
+        return new Endereco(rua, cep,numeroDaCasa,complemento,bairro,cidade);
+    }
     public String getNomeDoBanco() {return nome_do_Banco;}
     public String getCodigo() {return codigo;}
 }
