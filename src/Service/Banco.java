@@ -21,7 +21,7 @@ public class Banco {
     }
 
     public boolean adicionarCliente(Scanner sc) throws InputMismatchException{
-        String cpf, cnpj, dataDeNascimento, nome, nomeEmpresa, cidade, bairro, rua, complemento;
+        String cpf, cnpj, dataDeNascimento, nome, nomeEmpresa;
         Endereco enderecoDeCriacao;
 
         try {
@@ -88,6 +88,7 @@ public class Banco {
 
         return new Endereco(rua, cep,numeroDaCasa,complemento,bairro,cidade);
     }
+
     public String getNomeDoBanco() {return nome_do_Banco;}
     public String getCodigo() {return codigo;}
 }
