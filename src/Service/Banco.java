@@ -31,6 +31,7 @@ public class Banco {
 
             System.out.println("Nome do cliente: ");
             nome = sc.nextLine();
+
             System.out.println("Digite a data de nascimento do cliente: ");
             dataDeNascimento = sc.nextLine();
 
@@ -40,9 +41,8 @@ public class Banco {
 
                 enderecoDeCriacao = leitorDeEndereco(sc);
                 return this.clientesDoBanco.add(new ClientePessoaFisica(nome, cpf, enderecoDeCriacao, dataDeNascimento));
+
             }else if (tipoCliente.equalsIgnoreCase("PJ")){
-                System.out.println("Digite o nome do cliente: ");
-                nome = sc.nextLine();
                 System.out.println("Digite o CNPJ do cliente: ");
                 cnpj = sc.next();
                 System.out.println("Digite o nome da empresa do cliente: ");
@@ -50,6 +50,7 @@ public class Banco {
 
                 enderecoDeCriacao = leitorDeEndereco(sc);
                 return this.clientesDoBanco.add(new ClientePessoaJuridica(nome, enderecoDeCriacao,cnpj,nomeEmpresa, dataDeNascimento));
+
             }else {
                 System.out.println("Tipo de cliente inválido!");
                 return false;
