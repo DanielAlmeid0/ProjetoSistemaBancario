@@ -20,7 +20,7 @@ public class Banco {
         this.clientesDoBanco = new ArrayList<>();
     }
 
-    public boolean adicionarCliente(Scanner sc) throws InputMismatchException{
+    public boolean adicionarCliente(Scanner sc) throws InputMismatchException{ // ajustar esse metodo para quando lançar uma exceção, pedir para escrever dnv
         String cpf, cnpj, dataDeNascimento, nome, nomeEmpresa;
         Endereco enderecoDeCriacao;
 
@@ -57,13 +57,22 @@ public class Banco {
             }
 
         }catch (InputMismatchException e){
-            throw new InputMismatchException("ERRO, DIGITOU CARACTERES AO INVÉS DE NÚMEROS! "+ e.getMessage());
+            System.out.println("ERRO, VOCÊ DIGITOU ALGO ERRADO NO CAMPO ERRADO (ex: digitou números em um campo de caracteres)! "+ e.getMessage());
+            return false;
         }
     }
 
     public void abrirConta(){
-
+        //printar os clientes que existem no banco
+        // perguntar qual dos cliente deseja abrir a conta
+        // resposta de S ou N
+        // ver qual o tipo da conta a ser criado
+        //ler os dados necessários para cria uma conta via scanner
+        //(eu acho) instanciar uma conta no cliente alvo cadastrado ao banco
     }
+
+    public String getNomeDoBanco() {return nomeDoBanco;}
+    public String getCodigo() {return codigo;}
 
     private Endereco leitorDeEndereco(Scanner sc){
         System.out.println("--- Endereço ---");
@@ -89,7 +98,4 @@ public class Banco {
 
         return new Endereco(rua, cep,numeroDaCasa,complemento,bairro,cidade);
     }
-
-    public String getNomeDoBanco() {return nomeDoBanco;}
-    public String getCodigo() {return codigo;}
 }
