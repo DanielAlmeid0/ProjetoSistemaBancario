@@ -53,7 +53,7 @@ public abstract class Cliente {
         }
 
         return "Nome do cliente - " + nome +
-                ", DataDeNascimento - " + dataDeNascimento +
+                ", DataDeNascimento - " + dataDeNascimento.format(formatter) +
                 ", Endereço - " + enderecoImpressao ;
     }
 }
