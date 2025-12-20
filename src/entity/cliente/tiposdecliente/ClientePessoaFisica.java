@@ -5,17 +5,17 @@ import entity.cliente.Endereco;
 
 public class ClientePessoaFisica extends Cliente {
 
-    private String cpf;
+    private long cpf;
 
-    public ClientePessoaFisica(String nome, String cpf, Endereco endereco, String data_de_nascimento) {
+    public ClientePessoaFisica(String nome, long cpf, Endereco endereco, String data_de_nascimento) {
         super(nome, endereco, data_de_nascimento);
         this.cpf = cpf;
     }
 
-    public String getCpf() {return cpf;}
+    public long getCpf() {return cpf;}
 
     @Override
     public String toString() {
-        return "ClientePessoaFisica - " + super.toString() + ", cpf - " + cpf;
+        return "ClientePessoaFisica: \n" + super.toString() + " | CPF - " + cpf;
     }
 }
