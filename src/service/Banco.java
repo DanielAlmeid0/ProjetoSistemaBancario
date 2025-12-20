@@ -26,7 +26,7 @@ public class Banco {
         clientesDoBanco.forEach(System.out::println);
     }
 
-    public boolean adicionarCliente(Scanner sc) throws InvalidValueException { // ajustar esse metodo para quando lançar uma exceção, pedir para escrever dnv
+    public boolean adicionarCliente(Scanner sc) throws InvalidValueException {
         String cnpj, dataDeNascimento, nome, nomeEmpresa;
         long cpf;
         Endereco enderecoDeCriacao;

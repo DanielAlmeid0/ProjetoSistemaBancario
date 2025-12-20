@@ -23,27 +23,6 @@ public class Tratamento {
         return stringAlvo;
     }
 
-    public static String validacaoDasStrings(Scanner sc, int tamanhoIdeal){
-        boolean valido = true;
-        String stringAlvo = null;
-
-        while(!valido){
-            try{
-                stringAlvo = sc.next();
-                sc.nextLine();
-
-                 if (stringAlvo.length() != tamanhoIdeal){
-                    throw new RuntimeException();
-                 }else{
-                     valido = true;
-                 }
-            }catch (RuntimeException e){
-                System.out.println("ERRO, QUANTIDADE DE CARACTERES INVÁLIDA!");
-            }
-        }
-        return stringAlvo;
-    }
-
 //    public static String validacaoDasDatasEmString(Scanner sc){
 //        boolean valido = false;
 //        String data;
