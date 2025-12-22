@@ -59,7 +59,7 @@ public class Validacoes {
         return dataStr;
     }
 
-    public static String validacaoDosInteiros(Scanner sc, int tamanhoIdeal){
+    public static String validacaoDasStrings(Scanner sc, int tamanhoIdeal){
         boolean valido = false;
         String valor = "";
 

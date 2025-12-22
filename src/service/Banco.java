@@ -23,7 +23,10 @@ public class Banco {
     }
 
     public void mostrarClientesDoBanco(){
-        clientesDoBanco.forEach(System.out::println);
+        System.out.println("--- Clientes cadastrados ---");
+        for (int i = 0; i < clientesDoBanco.size(); i++) {
+            System.out.println((i+1) + ". " + clientesDoBanco.get(i).getNome());
+        }
     }
 
     public boolean adicionarCliente(Scanner sc) throws InvalidValueException {
@@ -43,7 +46,7 @@ public class Banco {
             if (tipoCliente.equalsIgnoreCase("PF")){
 
                 System.out.println("CPF do cliente: ");
-                cpf = Validacoes.validacaoDosInteiros(sc,11);
+                cpf = Validacoes.validacaoDasStrings(sc,11);
 
                 enderecoDeCriacao = leitorDeEndereco(sc);
                 return this.clientesDoBanco.add(new ClientePessoaFisica(nome, cpf, enderecoDeCriacao, dataDeNascimento));
@@ -70,20 +73,43 @@ public class Banco {
         }
     }
 
-    public void abrirConta(){
+    /// CREIO QUE A LÓGICA DE ENTRADA ESTEJA ERRADA, ESTE METODO ESTÁ ABERTO Á ALTERAÇÕES
+    public boolean abrirConta(Scanner sc){
+
         //printar os clientes que existem no banco
+        mostrarClientesDoBanco();
+
         // perguntar qual dos cliente deseja abrir a conta
-        // resposta de S ou N
+        System.out.println("Qual dos clientes deseja abrir uma conta?");
+        int op = sc.nextInt();
+        op--;
+
         // ver qual o tipo da conta a ser criado
-        //ler os dados necessários para cria uma conta via scanner
-        //(eu acho) instanciar uma conta no cliente alvo cadastrado ao banco
+        System.out.println("Digite qual o tipo da conta, Poupança(CP) ou Corrente (CC):");
+        String tipoConta = Validacoes.validacaoDasStrings(sc, 2);
+
+        if (tipoConta.equalsIgnoreCase("CC")){
+            //ler os dados necessários para cria uma conta via scanner
+
+            return true;
+        }else if (tipoConta.equalsIgnoreCase("CP")){
+            //ler os dados necessários para cria uma conta via scanner
+
+            return true;
+        }else {
+            return false;
+        }
+
+        //a partir da instanciação, que vem de dentro dos IFs, temos que
+        // acessar o clienteAlvo e usar o vincularConta() deste cliente
+        //para que possa passar a instância da Conta para esse metodo de vincularConta()
     }
 
     private static Endereco leitorDeEndereco(Scanner sc) {
         System.out.println("--- Endereço ---");
 
         System.out.println("Digite o CEP da cidade do cliente: ");
-        String cep = Validacoes.validacaoDosInteiros(sc, 8);
+        String cep = Validacoes.validacaoDasStrings(sc, 8);
 
         System.out.println("Digite o nome da cidade do cliente: ");
         String cidade = sc.nextLine();
