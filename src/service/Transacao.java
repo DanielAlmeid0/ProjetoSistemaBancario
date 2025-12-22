@@ -3,10 +3,11 @@ package service;
 import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.ResolverStyle;
 
 public class Transacao {
 
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/uuuu").withResolverStyle(ResolverStyle.STRICT);
     private static final String caminhoDoRegistro = "dados/RegistroDeTransacoes.txt";
     private final File arquivoRegistrador;
     private LocalDate dataTransacao;
@@ -32,28 +33,6 @@ public class Transacao {
 
     public void registrar() throws IOException {//falta a implementação das interfaces
         registrarNoArquivo();
-
-        System.out.println("--- EXTRATO BANCARIO ---");
-        System.out.println("Data da Transação: " + dataTransacao);
-        System.out.println("Tipo de Transação: " + tipoDeTransacao);
-        System.out.printf("Valor da Transação: %.2f%n", valTransacao);
-        System.out.println("---------------------------------------------");
-    }
-
-    public void exibicaoDoExtrato() throws IOException { ///CLASSE NÃO TERMINADA
-        try(BufferedReader reader = new BufferedReader(new FileReader(caminhoDoRegistro))){
-            String line;
-            while((line = reader.readLine()) != null){
-                if (line.isBlank() || line.startsWith("---")) {
-                    continue;
-                }
-
-                //lógica de exibição com interface gráfica
-            }
-
-        }catch (IOException e){
-            throw new IOException("FALHA AO EXIBIR O REGISTRO GERAL" , e);
-        }
     }
 
     private void registrarNoArquivo() throws IOException {
@@ -63,8 +42,8 @@ public class Transacao {
                 writer.newLine();
             }
 
-            writer.write("Data da Transação: " + dataTransacao + "| Tipo de transacao: "+ tipoDeTransacao + //se foi saque ou deposito ou transferencia
-                    "| Valor da transacao: "+ valTransacao);
+            writer.write("Data da Transação: " + dataTransacao + " | Tipo de transacao: "+ tipoDeTransacao + //se foi saque ou deposito ou transferencia
+                    " | Valor da transacao: "+ valTransacao);
             writer.newLine();
 
             writer.flush();
@@ -73,6 +52,9 @@ public class Transacao {
         }
     }
 
+    public String toString(){return "Data da Transação: " + dataTransacao+
+                                    " | Tipo de Transação: " + tipoDeTransacao+
+                                    String.format(" | Valor da Transação: %.2f%n", valTransacao);}
     public LocalDate getDataTransacao() {return dataTransacao;}
     public String getTipoDeTransacao() {return tipoDeTransacao;}
     public Double getValTransacao() {return valTransacao;}
