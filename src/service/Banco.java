@@ -1,11 +1,9 @@
 package service;
 
 import exception.InvalidValueException;
+import model.*;
 import util.Validacoes;
-import model.Cliente;
-import model.Endereco;
-import model.ClientePessoaFisica;
-import model.ClientePessoaJuridica;
+
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -74,31 +72,39 @@ public class Banco {
     }
 
     /// CREIO QUE A LÓGICA DE ENTRADA ESTEJA ERRADA, ESTE METODO ESTÁ ABERTO Á ALTERAÇÕES
-    public boolean abrirConta(Scanner sc){
+    public boolean abrirConta(Scanner sc, Cliente cliente, String tipoConta){
 
-        //printar os clientes que existem no banco
         mostrarClientesDoBanco();
+        if (cliente == null){return false;}
 
-        // perguntar qual dos cliente deseja abrir a conta
-        System.out.println("Qual dos clientes deseja abrir uma conta?");
-        int op = sc.nextInt();
-        op--;
+        Conta novaConta = null;
+        if (tipoConta.equalsIgnoreCase("corrente")){
+            double chequeEspecial = 1000;
+            novaConta = new ContaCorrente();
+        }else if (tipoConta.equalsIgnoreCase("poupanca")){
 
-        // ver qual o tipo da conta a ser criado
-        System.out.println("Digite qual o tipo da conta, Poupança(CP) ou Corrente (CC):");
-        String tipoConta = Validacoes.validacaoDasStrings(sc, 2);
-
-        if (tipoConta.equalsIgnoreCase("CC")){
-            //ler os dados necessários para cria uma conta via scanner
-
-            return true;
-        }else if (tipoConta.equalsIgnoreCase("CP")){
-            //ler os dados necessários para cria uma conta via scanner
-
-            return true;
-        }else {
-            return false;
         }
+
+//        // perguntar qual dos cliente deseja abrir a conta
+//        System.out.println("Qual dos clientes deseja abrir uma conta?");
+//        int op = sc.nextInt();
+//        op--;
+//
+//        // ver qual o tipo da conta a ser criado
+//        System.out.println("Digite qual o tipo da conta, Poupança(CP) ou Corrente (CC):");
+//        String tipoConta = Validacoes.validacaoDasStrings(sc, 2);
+//
+//        if (tipoConta.equalsIgnoreCase("CC")){
+//            //ler os dados necessários para cria uma conta via scanner
+//
+//            return true;
+//        }else if (tipoConta.equalsIgnoreCase("CP")){
+//            //ler os dados necessários para cria uma conta via scanner
+//
+//            return true;
+//        }else {
+//            return false;
+//        }
 
         //a partir da instanciação, que vem de dentro dos IFs, temos que
         // acessar o clienteAlvo e usar o vincularConta() deste cliente
@@ -132,4 +138,6 @@ public class Banco {
 
     public String getNomeDoBanco() {return nomeDoBanco;}
     public String getCodigo() {return codigo;}
+    public List<Cliente> getClientesDoBanco() {return clientesDoBanco;}
+    public void addAlistaDeClientesDoBanco(Cliente c) {this.clientesDoBanco.add(c);}
 }

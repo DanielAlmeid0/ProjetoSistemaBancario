@@ -2,7 +2,7 @@ package model;
 
 import exception.InsufficientFundsException;
 import exception.InvalidValueException;
-import service.Transacao;
+import repository.Transacao;
 
 import java.io.IOException;
 import java.util.ArrayList;

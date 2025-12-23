@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
@@ -10,7 +11,7 @@ public abstract class Cliente {
     protected String nome;
     protected Endereco endereco;
     protected LocalDate dataDeNascimento;
-    private Set<Conta> contas = new HashSet<>();
+    protected Set<Conta> contas = new HashSet<>();
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     public Cliente(String nome, Endereco endereco, String dataNascimento) {
