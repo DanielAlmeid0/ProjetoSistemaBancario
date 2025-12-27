@@ -18,15 +18,14 @@ public class Endereco {
     @Override
     public String toString() {
         return "Rua: " + rua +
-                " | Bairro: " + bairro +
-                " | Número Da Casa: " + numeroDaCasa +
-                " | Cidade: "+ cidade;
+                "\nBairro: " + bairro +
+                "\nNúmero Da Casa: " + numeroDaCasa +
+                "\nCidade: "+ cidade;
     }
 
-    public String getRua() {return rua;}
-    public String getCep() {return cep;}
-    public int getNumeroDaCasa() {return numeroDaCasa;}
+    public String toStringARQ(){
+        return cep+";"+rua +";"+ bairro +";"+ numeroDaCasa +";"+ cidade+";"+getComplemento();
+    }
+
     public String getComplemento() {return complemento;}
-    public String getBairro() {return bairro;}
-    public String getCidade() {return cidade;}
 }

@@ -1,5 +1,8 @@
 package model;
 
+import repository.Persistencia;
+import service.Banco;
+
 import java.awt.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -25,9 +28,12 @@ public abstract class Cliente {
         else{throw new RuntimeException("Vinculação de conta inválida!");}
     }
 
-    public void atualizarDados(String novo_nome, Endereco novo_endereco) {// falta a integração da interface gráfica
+    public void atualizarDados(String novo_nome, Endereco novo_endereco) { //REFATORAR ESSE METODO!!!!!
         this.nome = novo_nome;
         this.endereco = novo_endereco;
+
+//        Banco b = new Banco();
+//        b.getBancoDeDados().salvar();
     }
 
     public void consultarContas() {// esse metodo deve ser revisado quando a Interface Gráfica for implementada
@@ -38,20 +44,24 @@ public abstract class Cliente {
         System.out.println("\n-------------------");
     }
 
+    public void setNome(String nome){this.nome = nome;}
     public String getNome() {return nome;}
-    public String getEndereco() {return endereco.toString();}
-    public LocalDate getDataDeNascimento() {return dataDeNascimento;}
+    public String getEnderecoARQ() {return endereco.toStringARQ();}
 
     @Override
     public String toString() {
         String enderecoImpressao;
 
         if (!endereco.getComplemento().equalsIgnoreCase("Nenhum") ){
-            enderecoImpressao = endereco.toString() + " | Complemento: "+endereco.getComplemento();}
+            enderecoImpressao = endereco.toString() + "\nComplemento: "+endereco.getComplemento();}
         else {enderecoImpressao = endereco.toString();}
 
         return "Nome do cliente - " + nome +
-                ", DataDeNascimento - " + dataDeNascimento.format(formatter) +
-                ", Endereço - " + enderecoImpressao ;
+                "\nDataDeNascimento - " + dataDeNascimento.format(formatter) +
+                "\nEndereço - " + enderecoImpressao;
+    }
+
+    public String toStringARQ() {
+        return nome + ";" + getEnderecoARQ() + ";" + dataDeNascimento.format(formatter);
     }
 }

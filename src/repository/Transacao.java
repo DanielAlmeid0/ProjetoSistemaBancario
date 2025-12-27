@@ -36,12 +36,16 @@ public class Transacao {
     }
 
     private void registrarNoArquivo() throws IOException {
+
+        boolean escreverCabecalho = !arquivoRegistrador.exists() || arquivoRegistrador.length() == 0;
+
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(caminhoDoRegistro,true))){
-            if (!arquivoRegistrador.exists() || arquivoRegistrador.length() == 0) {
+            if (escreverCabecalho) {
                 writer.write("--- EXTRATO BANCÁRIO ---");
                 writer.newLine();
             }
 
+            // talvez tenha que refatorar essa parta por conta da formatação
             writer.write("Data da Transação: " + dataTransacao + " | Tipo de transacao: "+ tipoDeTransacao + //se foi saque ou deposito ou transferencia
                     " | Valor da transacao: "+ valTransacao);
             writer.newLine();
@@ -54,8 +58,6 @@ public class Transacao {
 
     public String toString(){return "Data da Transação: " + dataTransacao+
                                     " | Tipo de Transação: " + tipoDeTransacao+
-                                    String.format(" | Valor da Transação: %.2f%n", valTransacao);}
-    public LocalDate getDataTransacao() {return dataTransacao;}
-    public String getTipoDeTransacao() {return tipoDeTransacao;}
-    public Double getValTransacao() {return valTransacao;}
+                                    String.format(" | Valor da Transação: %.2f%n", valTransacao);
+    }
 }

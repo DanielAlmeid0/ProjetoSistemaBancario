@@ -17,7 +17,7 @@ public class Main {
             sc.nextLine();
 
             for (int i = 0; i < quant; i++) {
-                banco.adicionarCliente(sc);
+                //banco.adicionarCliente();
             }
 
             banco.mostrarClientesDoBanco();
