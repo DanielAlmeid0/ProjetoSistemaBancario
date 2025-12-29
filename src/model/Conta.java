@@ -7,14 +7,18 @@ import java.util.List;
 
 public abstract class Conta{
 
+    private static int contador = 1;//faz com que as contas sigam um padrão no NUMERO
+    protected static final int agenciaDefault = 1;
+
     protected Integer numero;
     protected Integer agencia;
     protected Double saldo;
     protected Cliente titular;
     protected List<Transacao> historico;
 
-    public Conta(int numero, int agencia, Cliente titular) {
-        this.numero = numero;
+    public Conta(int agencia, Cliente titular) {
+        this.numero = contador++;
+
         this.agencia = agencia;
         this.saldo = 0.0;
         this.titular = titular;
@@ -22,8 +26,20 @@ public abstract class Conta{
         this.historico = new ArrayList<>();
     }
 
-    public Conta(Cliente titular){
+    public Conta(Integer numero, Integer agencia, Cliente titular, Double saldo) {
+        this.numero = numero;
+        this.agencia = agencia;
         this.titular = titular;
+        this.saldo = saldo;
+        this.historico = new ArrayList<>();
+    }
+
+    public Conta(Cliente titular){
+        this.numero = contador++; // Atribui o número atual e incrementa para o próximo
+        this.agencia = agenciaDefault;
+        this.titular = titular;
+        this.saldo = 0.0;
+        this.historico = new ArrayList<>();
     }
 
     public boolean depositar(double val_deposito) throws IOException {
@@ -55,7 +71,7 @@ public abstract class Conta{
     public boolean transferir(Conta conta, double valor_transferencia) throws IOException {
         if (valor_transferencia > 0 && this.getSaldo() >= valor_transferencia) {
             this.setSaldo(this.getSaldo() - valor_transferencia);
-            conta.depositar(valor_transferencia);
+            conta.depositar(valor_transferencia); // colocar um registro de transferencia nesta conta que recebe
             Transacao transacao = new Transacao("Transferencia", valor_transferencia);
             this.historico.add(transacao);
             transacao.registrar();

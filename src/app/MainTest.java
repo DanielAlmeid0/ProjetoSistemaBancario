@@ -13,7 +13,7 @@ public class MainTest {
         /// FALTA FAZER A MAIN, TESTAR TODAS AS FUNCIONALIDADES, IMPLEMENTAR A INTERFACE GRÁFICA, EU CREIO
 
         Scanner sc = new Scanner(System.in);
-        Banco banco = new Banco("PACHECO's Bank", "ffre13232");
+        Banco banco = new Banco("PACHECO's Bank");
 
         try {
             System.out.println("Quantos clientes deseja cadastrar?");

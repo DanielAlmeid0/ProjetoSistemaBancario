@@ -8,17 +8,15 @@ import java.util.List;
 public class Banco {
 
     private String nomeDoBanco;
-    private String codigo;
     private List<Cliente> clientesDoBanco;
-    //private List<Conta> contasDoBanco;
+    private List<Conta> contasDoBanco;
     private Persistencia bancoDeDados;
 
-    public Banco(String nomeBanco, String codigo){
-        this.nomeDoBanco = nomeBanco;
-        this.codigo = codigo;
-        this.clientesDoBanco = new ArrayList<>();
+    public Banco(String nomeBanco){
         this.bancoDeDados = new Persistencia();
-        bancoDeDados.carregar(clientesDoBanco);
+        this.nomeDoBanco = nomeBanco;
+        this.clientesDoBanco = bancoDeDados.carregarClientes();
+        this.contasDoBanco = bancoDeDados.carregarContas(clientesDoBanco);
     }
 
     public void mostrarClientesDoBanco(){
@@ -34,7 +32,7 @@ public class Banco {
 
         Cliente novoCliente = new ClientePessoaFisica(nome, cpf, endereco, dataNascimento);
         this.clientesDoBanco.add(novoCliente);
-        this.bancoDeDados.salvar(novoCliente, "cadastrar");
+        this.bancoDeDados.salvarCliente(clientesDoBanco);
         return true;
     }
 
@@ -43,7 +41,7 @@ public class Banco {
         if (nome == null || cnpj == null || endereco == null || dataNascimento == null || nomeEmpresa == null){return false;}
 
         Cliente novoCliente = new ClientePessoaJuridica(nome, endereco,cnpj,nomeEmpresa, dataNascimento);
-        this.bancoDeDados.salvar(novoCliente, "cadastrar");
+        this.bancoDeDados.salvarCliente(clientesDoBanco);
         return true;
     }
 
@@ -57,11 +55,8 @@ public class Banco {
         }else {return false;}
 
         cliente.vincularConta(novaConta);
-        this.bancoDeDados.salvar(novaConta, "cadastrar");
+        this.contasDoBanco.add(novaConta);
+        this.bancoDeDados.salvarConta(contasDoBanco);
         return true;
-    }
-
-    public Persistencia getBancoDeDados() {
-        return bancoDeDados;
     }
 }

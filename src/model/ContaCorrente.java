@@ -9,13 +9,8 @@ public class ContaCorrente extends Conta {
     private Double limiteChequeEspecial;
     private final String tipo = "CC";
 
-    public ContaCorrente(Integer numero, Integer agencia, Cliente titular, double limite) {
-        super(numero, agencia, titular);
-        this.limiteChequeEspecial = limite;
-    }
-
-    public ContaCorrente(Integer numero, Integer agencia, Cliente titular) {
-        super(numero, agencia, titular);
+    public ContaCorrente(Integer numero, Integer agencia, Cliente titular, double saldo) {
+        super(numero, agencia, titular, saldo);
         this.limiteChequeEspecial = 0.0;
     }
 
@@ -30,7 +25,7 @@ public class ContaCorrente extends Conta {
 
     @Override
     public boolean sacar(double val_saque) throws IOException {
-        if (val_saque > 0 && (saldo + limiteChequeEspecial) >= val_saque) { //Daniel
+        if (val_saque > 0 && (saldo + limiteChequeEspecial) >= val_saque) {
             saldo -= val_saque;
             Transacao transacao= new Transacao("Saque", val_saque);
             historico.add(transacao);
@@ -49,5 +44,9 @@ public class ContaCorrente extends Conta {
                 "\nSaldo - " + saldo +
                 "\nAgência - " + agencia +
                 "\nNúmero da conta - " + numero;
+    }
+
+    public void setLimiteChequeEspecial(Double limiteChequeEspecial) {
+        this.limiteChequeEspecial = limiteChequeEspecial;
     }
 }

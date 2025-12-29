@@ -3,7 +3,9 @@ package model;
 import java.awt.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public abstract class Cliente {
@@ -35,12 +37,8 @@ public abstract class Cliente {
         return true;
     }
 
-    public void consultarContas() {// esse metodo deve ser revisado quando a Interface Gráfica for implementada
-        System.out.println("--- Contas do cliente "+nome+" ---\n");
-        for (Conta conta : contas) {
-            System.out.println(conta.toString());
-        }
-        System.out.println("\n-------------------");
+    public List<Conta> consultarContasVinculadas() {// esse metodo deve ser revisado quando a Interface Gráfica for implementada
+        return new ArrayList<>(contas);
     }
 
     public void setNome(String nome){this.nome = nome;}

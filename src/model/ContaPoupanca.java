@@ -1,28 +1,29 @@
 package model;
 
+import repository.Transacao;
+import java.io.IOException;
+
 public class ContaPoupanca extends Conta implements Tributavel {
 
-    private Double taxaRendimento; //talvez se colocasse como um valor fixo, seria mais interessante, não sei
-    private final String tipo = "CP";
+    private static final Double taxaRendimento = 0.005;
+    private static final String tipo = "CP";
 
-    public ContaPoupanca(Integer numero, Integer agencia, Cliente titular, double taxa) {
-        super(numero, agencia, titular);
-        this.taxaRendimento = taxa;
-    }
-
-    public ContaPoupanca(Integer numero, Integer agencia, Cliente titular) {
-        super(numero, agencia, titular);
-        this.taxaRendimento = 1.5;
+    public ContaPoupanca(Integer numero, Integer agencia, Cliente titular, Double saldo) {
+        super(numero, agencia, titular, saldo);
     }
 
     public ContaPoupanca(Cliente titular){
         super(titular);
     }
 
-    public void calcularRendimento(){
-        if (this.taxaRendimento != null && this.saldo > 0) {
-            double valorDoRendimento = this.saldo * this.taxaRendimento;
+    public void calcularRendimento() throws IOException {
+        if (this.saldo > 0) {
+            double valorDoRendimento = this.saldo * taxaRendimento;
             this.saldo += valorDoRendimento;
+
+            Transacao transacao = new Transacao("Rendimento", valorDoRendimento);
+            this.historico.add(transacao);
+            transacao.registrar();
         }
     }
 

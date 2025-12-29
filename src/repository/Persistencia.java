@@ -2,38 +2,38 @@ package repository;
 
 import model.*;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Persistencia <T>{
 
-    private final String caminho = "BancoDeDadosArq.txt";
-    private final File bancoDeDadosArq = new File(caminho);
+    private static final String arq_clientes = "arqClientes.txt";
+    private static final String arq_contas = "arqContas.txt";
 
-    /// salva cadastros de clientes ou contas e atulizações dos mesmos
-    public boolean salvar(Object objeto, String acao){ //falta implementação nos métodos
+    public boolean salvarCliente(List<Cliente> cliente){
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(arq_clientes, false))){
 
-        boolean precisaEscreverCabecalho = !bancoDeDadosArq.exists() || bancoDeDadosArq.length() == 0;
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(bancoDeDadosArq, true))){
-            if (precisaEscreverCabecalho){
-                writer.write("--- Registro de Cadastros ---");
+            for (Cliente c : cliente){
+                writer.write(c.toStringARQ());
                 writer.newLine();
             }
 
-            if (acao.equalsIgnoreCase("cadastrar")){writer.write("Novo cadastrado!");}
-            else if (acao.equalsIgnoreCase("atualização") || acao.equalsIgnoreCase("atualizar")){writer.write("Nova atualização!");}
-            writer.newLine();
+            return true;
 
-            //lógica de escrita do conteúdo no arq
-            if (objeto instanceof Conta){
-                Conta objConta = (Conta)objeto;
-                writer.write(objConta.toStringARQ());
-            } else if (objeto instanceof Cliente) {
-                Cliente objCliente = (Cliente) objeto;
-                writer.write(objCliente.toStringARQ());
-            }else {return false;}
+        }catch (IOException e){
+            System.out.println("Erro ao salvar os clientes: "+e.getMessage());
+            return false;
+        }
+    }
 
-            writer.newLine();
+    public boolean salvarConta(List<Conta> contas){
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(arq_contas, false))){
+
+            for (Conta c : contas){
+                writer.write(c.toStringARQ());
+                writer.newLine();
+            }
+
             return true;
 
         }catch (IOException e){
@@ -42,61 +42,58 @@ public class Persistencia <T>{
         }
     }
 
-    /// carrega o que tem em um arquivo .txt e salva em uma lista, usado de início para persistência
-    public void carregar(List<T> list) { //falta implementar nos construtores
-        try (BufferedReader reader = new BufferedReader(new FileReader(bancoDeDadosArq))) {
+    public List<Cliente> carregarClientes(){
+        List<Cliente> novosClientes = new ArrayList<>();
+        File file = new File(arq_clientes);
+
+        if (!file.exists()){return novosClientes;}
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))){
             String linha;
 
             while ((linha = reader.readLine()) != null) {
-                if (linha.startsWith("---") || linha.trim().isBlank()) {continue;}
-
-                try {
-                    Object objeto = parseObject(linha);
-                    if (objeto == null) {continue;}
-
-                    T objetoGenerico = (T) objeto;
-
-                    list.add(objetoGenerico);
-                } catch (ClassCastException e) {
-
-                }catch (Exception e){
-                    System.out.println("Erro ao ler linha "+ e.getMessage());
+                if (linha.trim().isBlank()) {
+                    continue;
                 }
-            }
 
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
+                Cliente novoCliente = parseCliente(linha);
+                if (novoCliente != null){novosClientes.add(novoCliente);}
+            }
+        }catch (IOException e){
+            System.out.println("Erro ao carregar os clientes: "+e.getMessage());
         }
+        return novosClientes;
     }
 
-    //SOLUÇÃO DE UM POSSÍVEL FUTURO ERRO: FAZER LER PRIMEIRO SÓ OS CLIENTES
-    // DPS LER AS CONTAS, JÁ QUE POSSUI UMA RELAÇÃO DE DEPENDÊNCIA
-    public Object parseObject(String linha) {
-        if (linha == null || linha.trim().isBlank()) {
-            throw new IllegalArgumentException("Linha inválida!");
-        }
+    public List<Conta> carregarContas(List<Cliente> listaDeClientes){
+        List<Conta> novaListaDeContas = new ArrayList<>();
+        File file = new File(arq_contas);
 
-        String[] partes = linha.trim().split(";");
-        if (partes.length < 2) {
-            throw new IllegalArgumentException("Frase não válida!");
-        }
+        if (!file.exists()){return novaListaDeContas;}
 
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))){
+            String linha;
+
+            while ((linha = reader.readLine()) != null) {
+                if (linha.trim().isBlank()) {
+                    continue;
+                }
+
+                Conta conta = parseConta(linha, listaDeClientes);
+                if (conta != null){novaListaDeContas.add(conta);}
+            }
+        }catch (IOException e){
+            System.out.println("Erro ao carregar os clientes: "+e.getMessage());
+        }
+        return novaListaDeContas;
+
+    }
+
+    private Cliente parseCliente(String linha){
+        String[] partes = linha.split(";");
         String tipo = partes[0];
 
-        if (tipo.equalsIgnoreCase("CC") || tipo.equalsIgnoreCase("CP")) {
-            int numero = Integer.parseInt(partes[1]);
-            int agencia = Integer.parseInt(partes[2]);
-            String nome = partes[3];
-            double limite = Double.parseDouble(partes[4]);
-            Cliente titularTemp = new ClientePessoaFisica(nome, "", null, null); //revisar essa parte
-
-            if (tipo.equalsIgnoreCase("CC")) {
-                return new ContaCorrente(numero, agencia, titularTemp, limite);
-            } else {
-                return new ContaPoupanca(numero, agencia, titularTemp, limite);
-            }
-
-        } else if (tipo.equalsIgnoreCase("PF")) {
+        if (tipo.equalsIgnoreCase("PF")) {
             String nome = partes[1];
             String cep = partes[2];
             String rua = partes[3];
@@ -125,6 +122,30 @@ public class Persistencia <T>{
             Endereco endereco = new Endereco(rua, cep, numeroDaCasa, complemento, bairro, cidade);
 
             return new ClientePessoaJuridica(nome, endereco, cnpj, nomeEmpresa, dataDeNascimento);
-        } else {return null;}
+        }
+        return null;
     }
+
+    private Conta parseConta(String linha, List<Cliente> clientes){
+        String[] partes = linha.split(";");
+        String tipo = partes[0];
+
+        String nomeOUcpf = partes[3];
+        Cliente clienteTitular = null;
+        for (Cliente cliente : clientes) {
+            //if (nomeOUcpf.equalsIgnoreCase(cliente.getCPF()))
+            if (nomeOUcpf.equalsIgnoreCase(cliente.getNome())) {
+                clienteTitular = cliente;
+                break;
+            }
+        }
+
+        if (clienteTitular == null){return null;}
+
+            if (tipo.equalsIgnoreCase("CC")) {
+                return new ContaCorrente(Integer.parseInt(partes[1]), Integer.parseInt(partes[2]), clienteTitular,  Double.parseDouble(partes[4]));
+            } else {
+                return new ContaPoupanca(Integer.parseInt(partes[1]), Integer.parseInt(partes[2]), clienteTitular,  Double.parseDouble(partes[4]));
+            }
+        }
 }

@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args){
         Scanner sc = new  Scanner(System.in);
-        Banco banco = new Banco("Banco do Brasil" , "12343");
+        Banco banco = new Banco("Banco do Brasil");
 
         try {
 
