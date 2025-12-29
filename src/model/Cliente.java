@@ -1,8 +1,5 @@
 package model;
 
-import repository.Persistencia;
-import service.Banco;
-
 import java.awt.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -28,12 +25,14 @@ public abstract class Cliente {
         else{throw new RuntimeException("Vinculação de conta inválida!");}
     }
 
-    public void atualizarDados(String novo_nome, Endereco novo_endereco) { //REFATORAR ESSE METODO!!!!!
+    //esse metodo vai precisar de uma lógica de entrada e saída com interfaces
+    public boolean atualizarDados(String novo_nome, Endereco novo_endereco) {
+        if ((novo_nome.isBlank() || novo_nome == null) && novo_endereco == null){
+            return false;
+        }
         this.nome = novo_nome;
         this.endereco = novo_endereco;
-
-//        Banco b = new Banco();
-//        b.getBancoDeDados().salvar();
+        return true;
     }
 
     public void consultarContas() {// esse metodo deve ser revisado quando a Interface Gráfica for implementada
