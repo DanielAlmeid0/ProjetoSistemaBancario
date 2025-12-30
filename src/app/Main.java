@@ -1,6 +1,5 @@
 package app;
 
-import exception.InvalidValueException;
 import model.Endereco;
 import service.Banco;
 import util.Validacoes;
