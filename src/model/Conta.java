@@ -14,7 +14,7 @@ public abstract class Conta{
     protected Integer agencia;
     protected Double saldo;
     protected Cliente titular;
-    protected List<Transacao> historico;
+    protected List<Transacao> historicoDeTransacoes;
 
     public Conta(int agencia, Cliente titular) {
         this.numero = contador++;
@@ -23,7 +23,7 @@ public abstract class Conta{
         this.saldo = 0.0;
         this.titular = titular;
         this.titular.vincularConta(this);
-        this.historico = new ArrayList<>();
+        this.historicoDeTransacoes = new ArrayList<>();
     }
 
     public Conta(Integer numero, Integer agencia, Cliente titular, Double saldo) {
@@ -31,7 +31,7 @@ public abstract class Conta{
         this.agencia = agencia;
         this.titular = titular;
         this.saldo = saldo;
-        this.historico = new ArrayList<>();
+        this.historicoDeTransacoes = new ArrayList<>();
     }
 
     public Conta(Cliente titular){
@@ -39,18 +39,18 @@ public abstract class Conta{
         this.agencia = agenciaDefault;
         this.titular = titular;
         this.saldo = 0.0;
-        this.historico = new ArrayList<>();
+        this.historicoDeTransacoes = new ArrayList<>();
     }
 
     public boolean depositar(double val_deposito) throws IOException {
         if (val_deposito > 0) {
             saldo += val_deposito;
             Transacao transacao = new Transacao("Deposito", val_deposito);
-            this.historico.add(transacao);
+            this.historicoDeTransacoes.add(transacao);
             transacao.registrar();
             return true;
         } else {
-            System.out.println("Valor de depósito inválido!");
+            System.out.println("O valor para depósito é inválido!");
             return false;
         }
     }
@@ -59,23 +59,32 @@ public abstract class Conta{
         if (val_saque > 0 && val_saque <= saldo && saldo >= 0) {
             saldo -= val_saque;
             Transacao transacao = new Transacao("Saque", val_saque);
-            historico.add(transacao);
+            historicoDeTransacoes.add(transacao);
             transacao.registrar();
             return true;
         } else {
-            System.out.println("Saldo insuficiente para saque!");//revisar
+            System.out.println("Saldo insuficiente para efetuar o saque!");
             return false;
         }
     }
 
     public boolean transferir(Conta conta, double valor_transferencia) throws IOException {
         if (valor_transferencia > 0 && this.getSaldo() >= valor_transferencia) {
+
             this.setSaldo(this.getSaldo() - valor_transferencia);
-            conta.depositar(valor_transferencia); // colocar um registro de transferencia nesta conta que recebe
-            Transacao transacao = new Transacao("Transferencia", valor_transferencia);
-            this.historico.add(transacao);
-            transacao.registrar();
+
+            Transacao transacaoDeSaida = new Transacao("Transferencia Enviada", valor_transferencia);
+            this.historicoDeTransacoes.add(transacaoDeSaida);
+            transacaoDeSaida.registrar();
+
+            conta.setSaldo(conta.getSaldo() + valor_transferencia);
+
+            Transacao transacaoRecebida = new Transacao("Transferencia Recebida", valor_transferencia);
+            conta.historicoDeTransacoes.add(transacaoRecebida);
+            transacaoRecebida.registrar();
+
             return true;
+
         }else {
             System.out.println("FALHA NA TRANSFERÊNCIA, SALDO INSUFICENTE!");
             return false;
@@ -89,7 +98,7 @@ public abstract class Conta{
         extrato.append("--- EXTRATO BANCARIO ---\n");
         extrato.append("Titular: ").append( titular.getNome()).append("\n");
 
-        for(Transacao transacao: historico) {
+        for(Transacao transacao: historicoDeTransacoes) {
             extrato.append(transacao.toString()).append("\n");
         }
 
