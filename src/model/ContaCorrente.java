@@ -28,7 +28,7 @@ public class ContaCorrente extends Conta {
         if (val_saque > 0 && (saldo + limiteChequeEspecial) >= val_saque) {
             saldo -= val_saque;
             Transacao transacao= new Transacao("Saque", val_saque);
-            historico.add(transacao);
+            historicoDeTransacoes.add(transacao);
             transacao.registrar();
             return true;
         } else {

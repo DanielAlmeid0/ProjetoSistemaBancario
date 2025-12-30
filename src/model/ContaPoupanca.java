@@ -22,7 +22,7 @@ public class ContaPoupanca extends Conta implements Tributavel {
             this.saldo += valorDoRendimento;
 
             Transacao transacao = new Transacao("Rendimento", valorDoRendimento);
-            this.historico.add(transacao);
+            this.historicoDeTransacoes.add(transacao);
             transacao.registrar();
         }
     }
