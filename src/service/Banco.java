@@ -18,6 +18,8 @@ public class Banco {
         this.contasDoBanco = bancoDeDados.carregarContas(clientesDoBanco);
     }
 
+    public List<Cliente> getClientesDoBanco() {return clientesDoBanco;}
+
     public void mostrarClientesDoBanco(){
         System.out.println("--- Clientes cadastrados ---");
         for (int i = 0; i < clientesDoBanco.size(); i++) {

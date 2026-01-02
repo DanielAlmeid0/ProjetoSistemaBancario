@@ -1,5 +1,6 @@
 package app;
 
+import model.Cliente;
 import model.Endereco;
 import service.Banco;
 import util.Validacoes;
@@ -22,15 +23,47 @@ public class Main {
             int quant = sc.nextInt();
             sc.nextLine();
 
+            boolean verificacao = false;
             for (int i = 0; i < quant; i++) {
-                adicaoDeCliente(sc,banco);
+                verificacao = adicaoDeCliente(sc,banco);
             }
 
-        }catch (Exception e){
+            if(verificacao){System.out.println("Cadastro de clientes realizado com sucesso!");}
+
+        }catch (InputMismatchException e){
             System.out.println(e.getMessage());
         }
 
+        try{ // abrir contas
+
+            //mostra os clientes cadastrados
+            banco.mostrarClientesDoBanco();
+            System.out.println("Qual dos clientes deseja abrir uma conta?");
+
+        }catch (Exception e){
+
+        }
+
     }
+
+        public static boolean abrirConta(Scanner sc, Banco banco){
+            int posicaoDoCLiente = sc.nextInt() - 1;
+            sc.nextLine();
+
+            if (posicaoDoCLiente < 0){ return false;}
+
+            for (Cliente clienteCadastrado : banco.getClientesDoBanco()){
+                if (){
+
+                }
+            }
+            banco.abrirConta();
+
+
+
+
+            return true;
+        }
 
         public static boolean adicaoDeCliente(Scanner sc, Banco banco) {
             String cnpj, dataDeNascimento, nome, nomeEmpresa, cpf;
