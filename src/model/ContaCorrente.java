@@ -7,15 +7,16 @@ import java.io.IOException;
 public class ContaCorrente extends Conta {
 
     private Double limiteChequeEspecial;
-    private final String tipo = "CC";
 
     public ContaCorrente(Integer numero, Integer agencia, Cliente titular, double saldo) {
         super(numero, agencia, titular, saldo);
         this.limiteChequeEspecial = 0.0;
+        this.tipo = "CC";
     }
 
     public ContaCorrente(Cliente titular) {
         super(titular);
+        this.tipo = "CC";
     }
 
     @Override

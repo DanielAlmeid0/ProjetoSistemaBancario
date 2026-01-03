@@ -10,6 +10,7 @@ public abstract class Conta{
     private static int contador = 1;//faz com que as contas sigam um padrão no NUMERO
     protected static final int agenciaDefault = 1;
 
+    protected String tipo;
     protected Integer numero;
     protected Integer agencia;
     protected Double saldo;
@@ -110,6 +111,7 @@ public abstract class Conta{
         return getNumero() +";"+ getAgencia() +";"+ getTitular().getNome() +";"+ getSaldo();
     }
 
+    public String getTipo(){return tipo;}
     public double getSaldo(){return saldo;}
     public Integer getNumero() {return numero;}
     public Integer getAgencia() {return agencia;}

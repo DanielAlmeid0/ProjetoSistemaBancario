@@ -6,14 +6,15 @@ import java.io.IOException;
 public class ContaPoupanca extends Conta implements Tributavel {
 
     private static final Double taxaRendimento = 0.005;
-    private static final String tipo = "CP";
 
     public ContaPoupanca(Integer numero, Integer agencia, Cliente titular, Double saldo) {
         super(numero, agencia, titular, saldo);
+        this.tipo = "CP";
     }
 
     public ContaPoupanca(Cliente titular){
         super(titular);
+        this.tipo = "CP";
     }
 
     public void calcularRendimento() throws IOException {

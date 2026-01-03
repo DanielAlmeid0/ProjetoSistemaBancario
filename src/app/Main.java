@@ -1,6 +1,7 @@
 package app;
 
 import model.Cliente;
+import model.Conta;
 import model.Endereco;
 import service.Banco;
 import util.Validacoes;
@@ -27,9 +28,8 @@ public class Main {
             boolean verificacao = false;
             for (int i = 0; i < quant; i++) {
                 verificacao = adicaoDeCliente(sc,banco);
+                if(verificacao){System.out.println("Cadastro de clientes realizado com sucesso!");}
             }
-
-            if(verificacao){System.out.println("Cadastro de clientes realizado com sucesso!");}
 
         }catch (InputMismatchException e){
             System.out.println(e.getMessage());
@@ -37,7 +37,8 @@ public class Main {
 
         try{ // abrir contas
 
-            banco.mostrarClientesDoBanco();
+            //banco.mostrarClientesDoBanco();
+            banco.mostrarClientesComContasVinculadas();
             System.out.println("Qual dos clientes deseja abrir uma conta?");
 
             boolean verificacao = abrirConta(sc, banco);
@@ -48,12 +49,12 @@ public class Main {
             System.out.println("ERRO INESPERADO: "+e.getMessage());
             e.printStackTrace();
         }
-
-        try {
-
-        }catch (Exception e){
-
-        }
+//
+//        try {
+//
+//        }catch (Exception e){
+//
+//        }
 
     }
 
@@ -72,6 +73,14 @@ public class Main {
                 String tipoConta = sc.nextLine();
 
                 if (tipoConta.equalsIgnoreCase("CP") || tipoConta.equalsIgnoreCase("CC")) {
+
+                    for (Conta contaExistente : clienteReference.consultarContasVinculadas()){
+                        if (contaExistente.getTipo().equalsIgnoreCase(tipoConta)){
+                            System.out.println("ERRO, O CLIENTE JÁ POSSUI UMA CONTA DO TIPO " + tipoConta + " VINCULADA!");
+                            return false;
+                        }
+                    }
+
                     return banco.abrirConta(clienteReference, tipoConta);
                 } else {
                     throw new IllegalArgumentException("TIPO DE CONTA \""+tipoConta+"\" NÃO VÁLIDO!");

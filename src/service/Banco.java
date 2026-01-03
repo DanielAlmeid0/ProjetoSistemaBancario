@@ -21,11 +21,37 @@ public class Banco {
     public List<Cliente> getClientesDoBanco() {return clientesDoBanco;}
 
     public void mostrarClientesDoBanco(){
-        System.out.println("--- Clientes cadastrados ---");
+        System.out.println("\n--- Clientes cadastrados ---");
         for (int i = 0; i < clientesDoBanco.size(); i++) {
             System.out.println((i+1) + ". " + clientesDoBanco.get(i).getNome());
         }
     }
+
+    public void mostrarClientesComContasVinculadas(){
+        System.out.println("\n--- Clientes cadastrados ---");
+        for (int i = 0; i < clientesDoBanco.size(); i++) {
+
+            System.out.println((i+1) + ". " + clientesDoBanco.get(i).getNome());
+
+            int quantContas = clientesDoBanco.get(i).consultarContasVinculadas().size();
+
+            if (quantContas > 0) { // printa o cliente que já possui conta, pelo menos uma conta vinculada
+                System.out.print(" - ");
+
+                for (int j = 0; j < quantContas; j++) {
+                    System.out.print(clientesDoBanco.get(i).consultarContasVinculadas().get(j).getTipo());
+
+                    if (j < quantContas - 1) {
+                        System.out.print(" & ");
+                    }
+                }
+            }
+
+            System.out.println();
+        }
+    }
+
+
 
     //pessoa física
     public boolean adicionarCliente(String nome, String cpf, Endereco endereco, String dataNascimento) {
@@ -42,6 +68,7 @@ public class Banco {
         if (nome == null || cnpj == null || endereco == null || dataNascimento == null || nomeEmpresa == null){return false;}
 
         Cliente novoCliente = new ClientePessoaJuridica(nome, endereco,cnpj,nomeEmpresa, dataNascimento);
+        this.clientesDoBanco.add(novoCliente);
         this.bancoDeDados.salvarCliente(clientesDoBanco);
         return true;
     }
