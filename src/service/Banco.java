@@ -16,14 +16,22 @@ public class Banco {
         this.nomeDoBanco = nomeBanco;
         this.clientesDoBanco = bancoDeDados.carregarClientes();
         this.contasDoBanco = bancoDeDados.carregarContas(clientesDoBanco);
+        vincularClientesComConta();
     }
 
-    public List<Cliente> getClientesDoBanco() {return clientesDoBanco;}
+    private void vincularClientesComConta(){
+        for (Conta conta : contasDoBanco) {
 
-    public void mostrarClientesDoBanco(){
-        System.out.println("\n--- Clientes cadastrados ---");
-        for (int i = 0; i < clientesDoBanco.size(); i++) {
-            System.out.println((i+1) + ". " + clientesDoBanco.get(i).getNome());
+            String nomeTitular = conta.getTitular().getNome();
+
+            Cliente dono = clientesDoBanco.stream()
+                    .filter(cliente -> cliente.getNome().equalsIgnoreCase(nomeTitular))
+                    .findFirst()
+                    .orElse(null);
+
+            if (dono != null){
+                dono.vincularConta(conta);
+            }
         }
     }
 
@@ -31,7 +39,7 @@ public class Banco {
         System.out.println("\n--- Clientes cadastrados ---");
         for (int i = 0; i < clientesDoBanco.size(); i++) {
 
-            System.out.println((i+1) + ". " + clientesDoBanco.get(i).getNome());
+            System.out.print((i+1) + ". " + clientesDoBanco.get(i).getNome());
 
             int quantContas = clientesDoBanco.get(i).consultarContasVinculadas().size();
 
@@ -47,7 +55,7 @@ public class Banco {
                 }
             }
 
-            System.out.println();
+            System.out.print("\n");
         }
     }
 
@@ -87,4 +95,6 @@ public class Banco {
         this.bancoDeDados.salvarConta(contasDoBanco);
         return true;
     }
+
+    public List<Cliente> getClientesDoBanco() {return clientesDoBanco;}
 }
