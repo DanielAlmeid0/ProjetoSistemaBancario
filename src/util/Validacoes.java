@@ -7,30 +7,8 @@ import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
-import java.util.Scanner;
 
 public class Validacoes {
-
-    //provavelmente esse metodo vai ficar inútil e terá que ser removido por conta da interface gráfica que utiliza uma lógica diferente
-    public static String validacaoDasStringsPorPadrao(String string, int tamanhoIdeal, String padrao, String padrao2){
-        boolean valido = false;
-        String stringAlvo = null;
-
-        while(!valido){
-            try{
-
-                if (stringAlvo.length() != tamanhoIdeal || (!stringAlvo.equalsIgnoreCase(padrao) && !stringAlvo.equalsIgnoreCase(padrao2))){
-                    throw new InvalidValueException();
-                }else{
-                    valido = true;
-                }
-            }catch (InvalidValueException e){
-                System.out.println("ERRO, VALOR DIGITADO É INVÁLIDO, DIGITE NOVAMENTE COM BASE NAS OPÇÕES!");
-            }
-        }
-        return stringAlvo;
-    }
-
     public static void validacaoDasDatas(String dataTexto) throws InvalidValueException{
 
         //esse formatador abaixo exige que a data seja válida

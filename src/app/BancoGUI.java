@@ -124,9 +124,9 @@ import java.util.List;
                         complemento = "Nenhum";
                     }
 
-//                    if (nomeDaEmpresa.trim().isEmpty() || nomeDaEmpresa.trim() == null) {
+//                  if (nomeDaEmpresa.trim().isEmpty() || nomeDaEmpresa.trim() == null) {
 //                        nomeDaEmpresa = "Empresa Default";
-//                    }
+//                  }
 
                     Endereco novoEndereco = new Endereco(
                             txtRua.getText(), txtCep.getText(),
@@ -135,7 +135,7 @@ import java.util.List;
                     );
 
                     // 2. Chama o seu Banco
-                    boolean sucesso = false;
+                    boolean sucesso;
 
                     if (tipo.equals("PF")) {
                         sucesso = banco.adicionarCliente(nome, doc, novoEndereco, data);
