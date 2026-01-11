@@ -7,7 +7,15 @@ Trabalho final da cadeira de POO do professor Ênio.
 
 Principais telas e funcionalidades:
 -
-> **Tela inicial**: é a tela principal do programa, a qual pode-se executar o cadastro dos clientes e a criação de contas de determinado cliente. Além da apresentação do nome do Sistema.
+> **Tela inicial**: é a tela de entrada do programa, a qual o Administrador/Usuário coloca seus dados: login e senha, para entrar e acessar o sistema por completo.
+
+> **Tela de Cadastro do Cliente**: é a tela principal do programa, a qual pode-se executar o cadastro dos clientes para prosseguir no sistema. 
+
+> **Tela de Abertura de Conta**: Nesta tela é feita a abertura de contas do determinado cliente já cadastrado.
+
+> **Visão Geral**: Mostra um registro sobre os clientes e as contas que foram criadas durante o uso do programa, lista essa que persiste após o fechamento do progama.
+
+> **Histórico**: Mostra um registro de todas as transações feitas no programa, desde de depósitos inciais até transferências de uma conta para outra, registro, esse, que também persiste após o fechamento do progama.
 
 >**Tela de operações bancárias**: nesta tela pode ser feito as seguintes operações bancárias entre as contas cadastradas: saque, depósito, transferência.  
 
