@@ -8,36 +8,34 @@ public class TelaLogin extends JFrame {
         setTitle("Login - PACHECO's Bank");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null); // Centraliza na tela
+        setLocationRelativeTo(null);
         setResizable(false);
 
         JPanel painelPrincipal = new JPanel(new GridBagLayout());
-        painelPrincipal.setBackground(new Color(245, 245, 250)); // Cor de fundo suave
+        painelPrincipal.setBackground(new Color(245, 245, 250));
         add(painelPrincipal);
 
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10); // Margem entre componentes
+        gbc.insets = new Insets(10, 10, 10, 10);
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.gridwidth = 2; // Ocupa 2 colunas
+        gbc.gridwidth = 2;
 
         JLabel lblTitulo = new JLabel("PACHECO's Bank");
         lblTitulo.setFont(new Font("SansSerif", Font.BOLD, 24));
-        lblTitulo.setForeground(new Color(0, 51, 102)); // Azul escuro
+        lblTitulo.setForeground(new Color(0, 51, 102));
         painelPrincipal.add(lblTitulo, gbc);
 
-        // Campos de Usuário
         gbc.gridwidth = 1;
         gbc.gridy++;
-        gbc.anchor = GridBagConstraints.EAST; // Alinha texto à direita
+        gbc.anchor = GridBagConstraints.EAST;
         painelPrincipal.add(new JLabel("Usuário:"), gbc);
 
         gbc.gridx = 1;
-        gbc.anchor = GridBagConstraints.WEST; // Alinha campo à esquerda
+        gbc.anchor = GridBagConstraints.WEST;
         JTextField txtUsuario = new JTextField(15);
         painelPrincipal.add(txtUsuario, gbc);
 
-        //  Campos de Senha
         gbc.gridy++;
         gbc.gridx = 0;
         gbc.anchor = GridBagConstraints.EAST;
@@ -48,12 +46,11 @@ public class TelaLogin extends JFrame {
         JPasswordField txtSenha = new JPasswordField(15);
         painelPrincipal.add(txtSenha, gbc);
 
-        //  Botão Entrar
         gbc.gridy++;
         gbc.gridx = 0;
         gbc.gridwidth = 2;
-        gbc.fill = GridBagConstraints.HORIZONTAL; // Botão estica
-        gbc.insets = new Insets(20, 10, 10, 10); // Mais espaço em cima
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(20, 10, 10, 10);
 
         JButton btnEntrar = new JButton("ACESSAR SISTEMA");
         btnEntrar.setFont(new Font("SansSerif", Font.BOLD, 12));
@@ -62,7 +59,6 @@ public class TelaLogin extends JFrame {
         btnEntrar.setFocusPainted(false);
         painelPrincipal.add(btnEntrar, gbc);
 
-        // AÇÃO DO BOTÃO
         btnEntrar.addActionListener(e -> {
             String usuario = txtUsuario.getText();
             String senha = new String(txtSenha.getPassword());
@@ -77,7 +73,6 @@ public class TelaLogin extends JFrame {
             }
         });
 
-        // Permite apertar ENTER para logar
         getRootPane().setDefaultButton(btnEntrar);
     }
 

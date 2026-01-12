@@ -13,7 +13,6 @@ public class BancoGUI extends JFrame {
     private Banco banco;
     private JTabbedPane abas;
 
-    // A ÚNICA variável de componente que sobrou (porque o método criarPainelContas ainda está aqui)
     private JComboBox<String> comboClientes;
 
     public BancoGUI() {
@@ -39,7 +38,7 @@ public class BancoGUI extends JFrame {
         //Abas
         abas = new JTabbedPane();
         abas.addTab("Cadastro de Clientes", pCadastro);
-        abas.addTab("Cadastrar Conta", criarPainelContas()); // Este ainda é local
+        abas.addTab("Cadastrar Conta", criarPainelContas());
         abas.addTab("Transações", pTransacoes);
         abas.addTab("Visão Geral", pVisao);
         abas.addTab("Histórico", pHistorico);
@@ -48,7 +47,6 @@ public class BancoGUI extends JFrame {
 
         abas.addChangeListener(e -> {
             Component c = abas.getSelectedComponent();
-            // CORREÇÃO: O nome da interface é PainelAtualizavel
             if (c instanceof Painel) {
                 ((Painel) c).recarregarDados();
             }
@@ -57,7 +55,7 @@ public class BancoGUI extends JFrame {
         atualizarListaClientesCombo();
     }
 
-    // --- MÉTODOS RESTANTES (Abertura de Conta) ---
+    // MÉTODOS RESTANTES (Abertura de Conta)
     private void atualizarListaClientesCombo() {
         if (comboClientes != null) {
             comboClientes.removeAllItems();
@@ -159,10 +157,6 @@ public class BancoGUI extends JFrame {
                         areaResultado.setText("SUCESSO!\nConta: " + nova.getNumero() + "\nSaldo: " + valor);
                         txtSenha.setText("");
                         txtDeposito.setText("0.00");
-
-                        // IMPORTANTE: Avisar a aba de visão geral que tem conta nova!
-                        // Como pVisao não é acessível aqui dentro facilmente sem mudar o escopo,
-                        // o listener "abas.addChangeListener" cuidará disso quando o usuário trocar de aba.
                     }
                 } else {
                     JOptionPane.showMessageDialog(this, "Cliente não encontrado.");
