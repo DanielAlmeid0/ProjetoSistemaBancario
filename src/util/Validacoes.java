@@ -39,16 +39,13 @@ public class Validacoes {
     }
 
 
-    public static boolean validacaoDasStrings(String stringREF, int tamanhoIdeal) throws InvalidValueException {
-        try {
-            if (stringREF.length() != tamanhoIdeal || !stringREF.matches("[0-9]+")) {
-                throw new InvalidValueException();
-            }
+    public static boolean validacaoDasStrings(String stringREF, int tamanhoIdeal, String nomeDoCampo) throws InvalidValueException {
 
-            return true;
-        } catch (InvalidValueException e) {
-            throw new InvalidValueException("Erro: quantidade de caracteres inválida, digite " + tamanhoIdeal + " números! ");
+        if (stringREF == null || stringREF.length() != tamanhoIdeal || !stringREF.matches("[0-9]+")) {
+            
+            throw new InvalidValueException("Erro no " + nomeDoCampo + ": Deve ter exatamente " + tamanhoIdeal + " números!");
         }
+        return true;
     }
 
     public static void validacaoDasStrings(String stringREF) throws InvalidValueException {
