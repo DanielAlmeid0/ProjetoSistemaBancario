@@ -83,14 +83,6 @@ public class PainelTransacoes extends JPanel implements Painel{
         txtValorTransacao = new JTextField();
         add(txtValorTransacao, gbc);
 
-        // 5. Senha (Recomendado adicionar)
-        gbc.gridy++;
-        gbc.gridx = 0;
-        add(new JLabel("Senha:"), gbc);
-        gbc.gridx = 1;
-        txtSenha = new JPasswordField();
-        add(txtSenha, gbc);
-
         // 6. Conta Destino
         gbc.gridy++;
         gbc.gridx = 0;
@@ -168,7 +160,6 @@ public class PainelTransacoes extends JPanel implements Painel{
 
             String tipo = (String) comboTipoTransacao.getSelectedItem();
             double valor = Double.parseDouble(txtValorTransacao.getText().replace(",", "."));
-            String senha = new String(txtSenha.getPassword());
 
             if ("Transferência".equals(tipo)) {
                 Conta contaDestino = (Conta) comboContaDestino.getSelectedItem();
@@ -203,6 +194,5 @@ public class PainelTransacoes extends JPanel implements Painel{
 
         // Limpa campos
         txtValorTransacao.setText("");
-        txtSenha.setText("");
     }
 }

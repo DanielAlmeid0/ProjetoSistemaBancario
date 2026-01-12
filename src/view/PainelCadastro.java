@@ -129,7 +129,7 @@ public class PainelCadastro extends JPanel {
         add(btnSalvar, gbc);
     }
 
-    // Método auxiliar para não repetir código de GridBag
+    // Metodo auxiliar para não repetir código de GridBag
     private void adicionarCampo(GridBagConstraints gbc, String rotulo, JTextField campo) {
         gbc.gridy++;
         gbc.gridx = 0;
@@ -165,6 +165,7 @@ public class PainelCadastro extends JPanel {
             String doc = txtDoc.getText();
             String data = txtDataNasc.getText();
             String complemento = txtComplemento.getText();
+            String cep = txtCep.getText();
             String selecionado = (String) comboTipoCliente.getSelectedItem();
             boolean isPF = "Pessoa Física".equals(selecionado);
             String nomeDaEmpresa = txtNomeEmpresa.getText();
@@ -176,18 +177,31 @@ public class PainelCadastro extends JPanel {
             if (isPF) {
                 Validacoes.validacaoDasStrings(doc, 11);
             } else {
-                Validacoes.validacaoDasStrings(doc, 14);
+                Validacoes.validacaoDasStrings(doc);
                 if (nomeDaEmpresa == null || nomeDaEmpresa.trim().isEmpty()) {
-                    throw new InvalidValueException("Nome da empresa obrigatório.");
+                    throw new InvalidValueException("ERRO: Nome da empresa obrigatório.");
                 }
             }
 
+            if (txtRua.getText().trim().isEmpty() ||
+                    cep.trim().isEmpty() ||
+                    txtBairro.getText().trim().isEmpty() ||
+                    txtCidade.getText().trim().isEmpty()) {
+
+                throw new InvalidValueException("ERRO: Todos os campos de endereço (exceto complemento) são obrigatórios.");
+            }
+
+            Validacoes.validacaoDasStrings(cep, 8);
             if (complemento == null || complemento.trim().isEmpty()) complemento = "Nenhum";
 
+            // 4. Cria o objeto Endereço (agora seguro)
             Endereco novoEndereco = new Endereco(
-                    txtRua.getText(), txtCep.getText(),
-                    Integer.parseInt(txtNum.getText()), complemento,
-                    txtBairro.getText(), txtCidade.getText()
+                    txtRua.getText(),
+                    cep,
+                    Integer.parseInt(txtNum.getText()),
+                    complemento,
+                    txtBairro.getText(),
+                    txtCidade.getText()
             );
 
             boolean sucesso;
@@ -202,20 +216,18 @@ public class PainelCadastro extends JPanel {
                 limparCamposCadastro();
                 comboTipoCliente.setSelectedIndex(0);
 
-                // AQUI ESTÁ A MÁGICA:
-                // Avisa a BancoGUI para atualizar as outras abas
                 if (acaoAposSalvar != null) {
                     acaoAposSalvar.run();
                 }
 
             } else {
-                JOptionPane.showMessageDialog(this, "Erro ao cadastrar.");
+                JOptionPane.showMessageDialog(this, "Erro ao cadastrar. Verifique se o cliente já existe.");
             }
 
         } catch (InvalidValueException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage());
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Erro: Campo 'Número' deve ser numérico.");
+            JOptionPane.showMessageDialog(this, "Erro: O Campo 'Número' deve ser numérico.");
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Erro: " + ex.getMessage());
         }

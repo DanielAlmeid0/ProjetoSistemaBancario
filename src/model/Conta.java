@@ -19,13 +19,14 @@ public abstract class Conta{
     protected List<Transacao> historicoDeTransacoes;
 
     public Conta(int agencia, Cliente titular) {
-        this.numero = contador++;
+        this.numero = contador;
+        contador++;
 
         this.agencia = agencia;
         this.saldo = 0.0;
         this.titular = titular;
-        this.titular.vincularConta(this);
         this.historicoDeTransacoes = new ArrayList<>();
+        this.titular.vincularConta(this);
     }
 
     public Conta(Integer numero, Integer agencia, Cliente titular, Double saldo) {
@@ -34,14 +35,21 @@ public abstract class Conta{
         this.titular = titular;
         this.saldo = saldo;
         this.historicoDeTransacoes = new ArrayList<>();
+
+        if (numero >= contador){
+            contador = numero + 1;
+        }
     }
 
     public Conta(Cliente titular){
-        this.numero = contador++; // Atribui o número atual e incrementa para o próximo
+        this.numero = contador;// Atribui o número atual
+        contador++;// incrementa para o próximo
+
         this.agencia = agenciaDefault;
         this.titular = titular;
         this.saldo = 0.0;
         this.historicoDeTransacoes = new ArrayList<>();
+        this.titular.vincularConta(this);
     }
 
     public boolean depositar(double val_deposito) throws IOException {
